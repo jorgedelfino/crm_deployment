@@ -17,6 +17,9 @@ mongoose.connect(process.env.DB_URL, {
 // Crear el servidor
 const app = express()
 
+// Carpeta publica
+app.use(express.static('uploads'))
+
 // habilitar body parser
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -27,10 +30,7 @@ const corsOptions = {
 	origin: (origin, callback) => {
 		// Revisar si la peticion viene de un servidor que esta en la lista blanca
 		const existe = whiteList.indexOf(origin) !== -1
-		console.log(`#1 ${whiteList}`) // Me muestra el array de la variable de entorno
-		console.log(`#2 ${origin}`) // Retorna undefined
-		console.log(`#3 ${existe}`) // Retorna false
-		if (!origin || existe) {
+		if (existe) {
 			callback(null, true)
 		} else {
 			callback(new Error('No permitido por CORS'))
@@ -43,9 +43,6 @@ app.use(cors(corsOptions))
 
 // Rutas de la app
 app.use('/', routes())
-
-// Carpeta publica
-app.use(express.static('uploads'))
 
 // puerto
 const host = process.env.HOST || '0.0.0.0'

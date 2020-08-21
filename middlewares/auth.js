@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+require('dotenv').config({ path: '../variables.env' })
 
 module.exports = (req, res, next) => {
 	
@@ -16,7 +17,7 @@ module.exports = (req, res, next) => {
 	let revisarToken
 	
 	try {
-		revisarToken = jwt.verify(token, 'SECRETKEY')
+		revisarToken = jwt.verify(token, process.env.SECRET)
 	} catch (error) {
 		error.statusCode = 500
 		throw error

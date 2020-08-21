@@ -1,6 +1,7 @@
 const Usuarios = require('../models/Usuarios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+require('dotenv').config({ path: '../variables.env' })
 
 exports.registrarUsuario = async (req, res) => {
 
@@ -39,7 +40,7 @@ exports.autenticarUsuario = async (req, res, next) => {
 				nombre: usuario.nombre,
 				id: usuario._id
 			},
-			'SECRETKEY',
+			process.env.SECRET,
 			{
 				expiresIn: '1h'
 			})
