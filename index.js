@@ -25,28 +25,27 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 // Definir un dominio para recibir las peticiones
-// const whiteList = [process.env.FRONTEND_URL]
-// const corsOptions = {
-// 	origin: (origin, callback) => {
-// 		// Revisar si la peticion viene de un servidor que esta en la lista blanca
-// 		const existe = whiteList.indexOf(origin) !== -1
-// 		if (existe) {
-// 			callback(null, true)
-// 		} else {
-// 			callback(new Error('No permitido por CORS'))
-// 		}
-// 	}
-// }
+const whiteList = [process.env.FRONTEND_URL]
+const corsOptions = {
+	origin: (origin, callback) => {
+		// Revisar si la peticion viene de un servidor que esta en la lista blanca
+		const existe = whiteList.indexOf(origin) !== -1
+		if (existe) {
+			callback(null, true)
+		} else {
+			callback(new Error('No permitido por CORS'))
+		}
+	}
+}
 
 // Habilitar cors
-// app.use(cors(corsOptions))
-app.use(cors())
+app.use(cors(corsOptions))
 
 // Rutas de la app
 app.use('/', routes())
 
 // puerto
-const host = process.env.HOST || '0.0.0.0/0'
+const host = process.env.HOST || '0.0.0.0'
 const port = process.env.PORT || 5000
 
 // Iniciar app
